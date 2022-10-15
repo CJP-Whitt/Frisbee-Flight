@@ -10,35 +10,27 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-PWM_BLDC_Control::PWM_BLDC_Control() {}
-
-PWM_BLDC_Control::PWM_BLDC_Control(uint8_t pin, int16_t escMinMicros, int16_t escMaxMicros, int16_t escArmSignalMicros, 
-                                        int16_t escArmLengthMillis, int16_t escDeadzoneMicros, int16_t escReverseMicros) {
+PWM_BLDC_Control::PWM_BLDC_Control(Servo &esc, int16_t escMinMicros, int16_t escMaxMicros, int16_t escDeadzoneMicros, int16_t escReverseMicros) {
     /* Class constructor: Initialize necessary class inputs
-        - pin: Output pin to use for sending pwm signal to the ESC
         - escMin/MaxMicros: Min and max PWM signal range in (us) to represent 0 to 100% duty cycle
         - escArmSignalMicros: PWM (us) signal to send to ESC for arming
         - escArmSignalMillis: Time in (us) to send the arm signal
         - escDeadzoneMicros: Range in (us) around the reverse PWM signal to send 0% duty cycle to motor
         - escReverseMicros: PWM signal midpoint in (us) that corresponds to the bi-directional point
     */
+   Esc = esc;
    escMinThrottle = escMinMicros;
    escMaxThrottle = escMaxMicros;
-   escArmSignal = escArmSignalMicros;
-   escArmTime = escArmLengthMillis;
    escDeadzoneRange = escDeadzoneMicros;
    escReverseThrottle = escReverseMicros;
    escCenterThrottle = escReverseMicros - 20; // BLHeli_S has 40us below reverse throttle reserved for arming
-   pwmPin = pin;
-
-   Esc.attach(pwmPin, escMinThrottle, escMaxThrottle);
-
+   
 }
 
 int8_t PWM_BLDC_Control::readDutyCycle(void) {
     /* readDutyCycle: Get current throttle input scaled between -100% and 100%
     */
-    return map( Esc.readMicroseconds(), escMinThrottle, escMaxThrottle, -100, 100 );
+    return map(Esc.readMicroseconds(), escMinThrottle, escMaxThrottle, -100, 100);
 }
 
 void PWM_BLDC_Control::writeDutyCycle(int8_t speed) {
@@ -49,19 +41,6 @@ void PWM_BLDC_Control::writeDutyCycle(int8_t speed) {
     if (speed < -100) {speed = -100; }
 
     writeSpeed( map(speed, -100, 100, escMinThrottle, escMaxThrottle) );
-}
-
-void PWM_BLDC_Control::escArm(void) {
-    /* escInit: Run through arming process for esc
-    */
-    unsigned long now = millis();
-    while (millis() < now + escArmTime) {
-        Esc.writeMicroseconds(escArmSignal - 50);
-    }
-    now = millis();
-    while (millis() < now + escArmTime) {
-        Esc.writeMicroseconds(escArmSignal);
-    }
 }
 
 bool PWM_BLDC_Control::isDeadzone(uint16_t speed) {

@@ -15,12 +15,9 @@
 
 class PWM_BLDC_Control {
     public:
-        PWM_BLDC_Control();
-        PWM_BLDC_Control(uint8_t pin, int16_t escMinMicros, int16_t escMaxMicros, int16_t escArmSignalMicros, 
-                                        int16_t escArmLengthMillis, int16_t escDeadzoneMicros, int16_t escReverseMicros);
+        PWM_BLDC_Control(Servo &esc, int16_t escMinMicros, int16_t escMaxMicros, int16_t escDeadzoneMicros, int16_t escReverseMicros);
         int8_t readDutyCycle(void);
         void writeDutyCycle(int8_t speed);
-        void escArm(void);
 
     private:
         bool isDeadzone(uint16_t speed);
@@ -29,12 +26,9 @@ class PWM_BLDC_Control {
         Servo Esc;
         int16_t escMinThrottle;
         int16_t escMaxThrottle;
-        int16_t escArmSignal;
-        int16_t escArmTime;
         int16_t escDeadzoneRange;
         int16_t escReverseThrottle;
         int16_t escCenterThrottle;
-        uint8_t pwmPin;
 
 };
 
