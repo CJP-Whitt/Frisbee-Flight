@@ -1,30 +1,56 @@
-
 #include <PWM_BLDC_Control.h>
 
-PWM_BLDC_Control* Motor1;
-PWM_BLDC_Control* Motor2;
+
+
+// TODO: Move configurable params to config file or struct
+const uint8_t wheelMotPin1 = 3;
+const uint8_t wheelMotPin2 = 5;
+const uint8_t gantryMotPin = NULL; // TODO: Pick Gantry pwm pin
+const int16_t escMinMicros = 1080;
+const int16_t escMaxMicros = 1880;
+const int16_t escReverseMicros = 1500;
+const int16_t escArmDurationMicros = 5000;
+Servo wheelMot1, wheelMot2, gantryMot;
+PWM_BLDC_Control *wheelMot1Controller;
+PWM_BLDC_Control *wheelMot2Controller;
+PWM_BLDC_Control *gantryMotController;
+
+
 
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("Initializing...");
-    Motor1 = new PWM_BLDC_Control(5, 1080, 1880, 1480, 4000, 0, 1500);
-    Motor2 = new PWM_BLDC_Control(3, 1080, 1880, 1480, 4000, 0, 1500);
-    Serial.println("Done");
+    Serial.print("Initializing...");
+
+    // Initialize servo objects
+    wheelMot1.attach(wheelMotPin1, escMinMicros, escMaxMicros);
+    wheelMot2.attach(wheelMotPin2, escMinMicros, escMaxMicros);
+    gantryMot.attach(gantryMotPin, escMinMicros, escMaxMicros);
+
+    // Instantiate motor controllers
+    wheelMot1Controller = new PWM_BLDC_Control(wheelMot1, escMinMicros, escMaxMicros, 0, escReverseMicros);
+    wheelMot2Controller = new PWM_BLDC_Control(wheelMot2, escMinMicros, escMaxMicros, 0, escReverseMicros);
+    gantryMotController = new PWM_BLDC_Control(gantryMot, escMinMicros, escMaxMicros, 0, escReverseMicros);
+    Serial.println("Done\n");
     
+    // Arm motors
+    Serial.print("Arming Motors...");
     unsigned long now = millis();
     while (millis() < now + 8000) {
-        Motor1->writeDutyCycle(0);
-        Motor2->writeDutyCycle(0);
+        wheelMot1Controller->writeDutyCycle(0);
+        wheelMot2Controller->writeDutyCycle(0);
+        gantryMotController->writeDutyCycle(0);
     }
+    Serial.println("Done\n");
+
 }
 
 void loop()
 {
     int valueRaw = analogRead(A0);
     int valueDC = map(valueRaw, 0, 1024, -100, 100);
-    Motor1->writeDutyCycle(valueDC);
-    Motor2->writeDutyCycle(valueDC);
+    wheelMot1Controller->writeDutyCycle(valueDC);
+    wheelMot2Controller->writeDutyCycle(valueDC);
 
     Serial.print("RawIn: ");
     Serial.print(valueRaw);
