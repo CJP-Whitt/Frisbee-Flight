@@ -9,7 +9,7 @@ const uint8_t gantryMotPin = NULL; // TODO: Pick Gantry pwm pin
 const int16_t escMinMicros = 1080;
 const int16_t escMaxMicros = 1880;
 const int16_t escReverseMicros = 1500;
-const int16_t escArmDurationMicros = 5000;
+const int16_t escArmDurationMicros = 8000;
 Servo wheelMot1, wheelMot2, gantryMot;
 PWM_BLDC_Control *wheelMot1Controller;
 PWM_BLDC_Control *wheelMot2Controller;
@@ -36,7 +36,7 @@ void setup()
     // Arm motors
     Serial.print("Arming Motors...");
     unsigned long now = millis();
-    while (millis() < now + 8000) {
+    while (millis() < now + escArmDurationMicros) {
         wheelMot1Controller->writeDutyCycle(0);
         wheelMot2Controller->writeDutyCycle(0);
         gantryMotController->writeDutyCycle(0);
