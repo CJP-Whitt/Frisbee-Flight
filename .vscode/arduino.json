@@ -1,6 +1,6 @@
 {
-    "board": "arduino:avr:uno",
-    "port": "COM7",
+    "board": "adafruit:avr:feather32u4",
+    "port": "COM11",
     "programmer": "arduino:avrisp",
-    "sketch": "main.ino"
+    "sketch": "Libraries\\BLE\\examples\\bleuart_cmdmode\\bleuart_cmdmode.ino"
 }

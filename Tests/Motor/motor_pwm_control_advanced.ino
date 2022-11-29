@@ -2,6 +2,7 @@
  Name:		motor_pwm_control_bi.ino
  Created:	9/10/2022
  Author:	CWhitt
+ Description: This is for testing basic motor functionality using analog input and out output to motor using the Servo Library
 */
 
 //these values copied from the BlHeli configuration
