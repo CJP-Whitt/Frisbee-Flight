@@ -1,7 +1,7 @@
 /*
- Name:		main.ino
- Created:	9/1/2022
- Author:	CWhitt
+ Name:		  main.ino
+ Created:	  9/1/2022
+ Author:	  CWhitt
  Description: This is the main file for running the Frisbee Flight app and firmware functionality. Work in progress. 
 */
 
