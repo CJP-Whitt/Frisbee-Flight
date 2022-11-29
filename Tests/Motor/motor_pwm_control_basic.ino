@@ -1,3 +1,10 @@
+/*
+ Name:		motor_pwm_control_basic.ino
+ Created:	9/10/2022
+ Author:	CWhitt
+ Description: This is for testing basic motor functionality using analog input and analog output using built in arduino functionality.
+*/
+
 int const sensorPin = A0;    // select the input pin for the potentiometer
 float static sensorValue = 0.0;  // variable to store the value coming from the sensor
 
