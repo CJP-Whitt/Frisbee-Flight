@@ -1,5 +1,11 @@
-#include <PWM_BLDC_Control.h>
+/*
+ Name:		main.ino
+ Created:	9/1/2022
+ Author:	CWhitt
+ Description: This is the main file for running the Frisbee Flight app and firmware functionality. Work in progress. 
+*/
 
+#include <PWM_BLDC_Control.h>
 
 
 // TODO: Move configurable params to config file or struct
