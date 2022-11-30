@@ -73,7 +73,7 @@ void setup(void)
   Serial.println("- Setting BLE Power to Max...");
   ble.println("AT+BLEPOWERLEVEL=4"); // Maximize BLE power level for longest range
   Serial.println("- Setting BLE Public name to @Frisbee Flight BLE");
-  ble.println("AT+GAPDEVNAME=Frisbee Flight BLE") // Update devices advertised name
+  ble.println("AT+GAPDEVNAME=Frisbee Flight BLE"); // Update devices advertised name
   Serial.println("Updating BLE Module Settings...DONE");
   Serial.println("\nEntering command mode, enter AT commands at will.");
 
