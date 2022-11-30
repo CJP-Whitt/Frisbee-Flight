@@ -1,0 +1,1 @@
+The Utilities directory is for peripheral device setup and first time usage testing. If you are looking for more general setup/testing used the files in the Tests directory.
