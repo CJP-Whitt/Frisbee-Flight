@@ -2,7 +2,9 @@
  Name:		    ble_first_time_setup.ino
  Created:	    11/29/2022
  Author:	    CWhitt
- Description: File to run for first time setup of the BLE bluefruit module
+ Description: File to run for first time setup of the BLE bluefruit module. This will change a few
+              settings on the BLE module by default (BLEPOWER=HIGH, GAPDEVICENAME=Frisbee Flight BLE).
+              After settings are updated free command mode will be available.
 */
 
 #include <Arduino.h>
@@ -67,7 +69,14 @@ void setup(void)
   
   Serial.println("Requesting Bluefruit info:");
   ble.info(); //Print Bluefruit information
+  Serial.println("Updating BLE Module Settings...");
+  Serial.println("- Setting BLE Power to Max...");
   ble.println("AT+BLEPOWERLEVEL=4"); // Maximize BLE power level for longest range
+  Serial.println("- Setting BLE Public name to @Frisbee Flight BLE");
+  ble.println("AT+GAPDEVNAME=Frisbee Flight BLE") // Update devices advertised name
+  Serial.println("Updating BLE Module Settings...DONE");
+  Serial.println("\nEntering command mode, enter AT commands at will.");
+
 }
 
 void loop(void)
