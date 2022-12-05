@@ -79,10 +79,6 @@ void setup(void)
   /* Disable command echo from Bluefruit */
   ble.echo(false);
 
-  Serial.println("Requesting Bluefruit info:");
-  /* Print Bluefruit information */
-  ble.info();
-
   Serial.println(F("Use Adafruit Bluefruit LE app to connect in Controller mode > Game Controller"));
   Serial.println();
 
@@ -126,14 +122,16 @@ void loop(void)
     boolean pressed = packetbuffer[3] - '0';
     Serial.print ("Button "); Serial.print(buttnum);
     if (pressed) {
-      Serial.println(" pressed");
+      Serial.print(" pressed ");
     } else {
-      Serial.println(" released");
+      Serial.print(" released ");
     }
+    Serial.println((char*)packetbuffer);
+    
   }
 
   else {
-    Serial.print("Invalid control code: "); Serial.println();
+    Serial.print("Invalid control code: "); Serial.println((char*)packetbuffer);
   }
 
 
