@@ -5,6 +5,7 @@
  Description: This is the main file for running the Frisbee Flight app and firmware functionality. Work in progress. 
 */
 
+#include <Servo.h>
 #include <PWM_BLDC_Control.h>
 
 
@@ -22,11 +23,10 @@ PWM_BLDC_Control *wheelMot2Controller;
 PWM_BLDC_Control *gantryMotController;
 
 
-
 void setup()
 {
     Serial.begin(115200);
-    Serial.print("Initializing...");
+    Serial.print("Initializing Motors...");
 
     // Initialize servo objects
     wheelMot1.attach(wheelMotPin1, escMinMicros, escMaxMicros);
