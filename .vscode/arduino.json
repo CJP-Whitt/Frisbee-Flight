@@ -1,6 +1,0 @@
-{
-    "board": "adafruit:avr:feather32u4",
-    "port": "COM11",
-    "programmer": "arduino:avrisp",
-    "sketch": "frisbee-controller\\main.ino"
-}
