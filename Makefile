@@ -19,7 +19,7 @@ HELP_FUN = \
 
 lint: ##@Tools Check source files for linting conflicts
 	cpplint --linelength=100 --extensions=c,c++,cc,cpp,cu,cuh,cxx,h,h++,hh,hpp,hxx,ino --recursive \
-		/app /configs /libraries/PWM_BDLC_Control /tests /utilities
+		./app ./configs ./libraries/PWM_BDLC_Control ./tests ./utilities
 
 hello: ##@Miscellaneous Example make target
 	@echo "Hello, World!"

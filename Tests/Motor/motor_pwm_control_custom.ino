@@ -1,10 +1,3 @@
-/*
- Name:		motor_pwm_control_custom.ino
- Created:	9/20/2022
- Author:	CWhitt
- Description: This is a more advanced test using my custom PWM_BLDC_Control library and more specific Frisbee Flight applications.
-*/
-
 #include <PWM_BLDC_Control.h>
 
 
@@ -22,8 +15,7 @@ PWM_BLDC_Control *gantryMotController;
 
 
 
-void setup()
-{
+void setup() {
     Serial.begin(115200);
     Serial.print("Initializing...");
 
@@ -33,25 +25,26 @@ void setup()
     gantryMot.attach(gantryMotPin, escMinMicros, escMaxMicros);
 
     // Instantiate motor controllers
-    wheelMot1Controller = new PWM_BLDC_Control(wheelMot1, escMinMicros, escMaxMicros, 0, escReverseMicros);
-    wheelMot2Controller = new PWM_BLDC_Control(wheelMot2, escMinMicros, escMaxMicros, 0, escReverseMicros);
-    gantryMotController = new PWM_BLDC_Control(gantryMot, escMinMicros, escMaxMicros, 0, escReverseMicros);
+    wheelMot1Controller = new PWM_BLDC_Control(wheelMot1, escMinMicros, escMaxMicros, 0,
+                                               escReverseMicros);
+    wheelMot2Controller = new PWM_BLDC_Control(wheelMot2, escMinMicros, escMaxMicros, 0,
+                                               escReverseMicros);
+    gantryMotController = new PWM_BLDC_Control(gantryMot, escMinMicros, escMaxMicros, 0,
+                                               escReverseMicros);
     Serial.println("Done\n");
-    
+
     // Arm motors
     Serial.print("Arming Motors...");
-    unsigned long now = millis();
+    uint64_t now = millis();
     while (millis() < now + escArmDurationMicros) {
         wheelMot1Controller->writeDutyCycle(0);
         wheelMot2Controller->writeDutyCycle(0);
         gantryMotController->writeDutyCycle(0);
     }
     Serial.println("Done\n");
-
 }
 
-void loop()
-{
+void loop() {
     int valueRaw = analogRead(A0);
     int valueDC = map(valueRaw, 0, 1024, -100, 100);
     wheelMot1Controller->writeDutyCycle(valueDC);
@@ -60,8 +53,7 @@ void loop()
     Serial.print("RawIn: ");
     Serial.print(valueRaw);
     Serial.print("\t\t| PWMOut(ms): ");
-    Serial.print( map( valueDC, -100, 100, 1080, 1880) );
+    Serial.print(map( valueDC, -100, 100, 1080, 1880));
     Serial.print("\t\t| DutyCycle: ");
     Serial.println(valueDC);
-
-} 
+}

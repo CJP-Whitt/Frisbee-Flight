@@ -31,7 +31,7 @@ void loop() {
   }
 
   // offset range for forward (0->127) reverse (127->255)
-  
+
   analogWrite(pwmPin, pwmValue);
   Serial.println(pwmValue);
 }

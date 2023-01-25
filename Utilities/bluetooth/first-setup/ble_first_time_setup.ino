@@ -1,12 +1,3 @@
-/*
- Name:		    ble_first_time_setup.ino
- Created:	    11/29/2022
- Author:	    CWhitt
- Description: File to run for first time setup of the BLE bluefruit module. This will change a few
-              settings on the BLE module by default (BLEPOWER=HIGH, GAPDEVICENAME=Frisbee Flight BLE).
-              After settings are updated free command mode will be available.
-*/
-
 #include <Arduino.h>
 #include <SPI.h>
 #include "Adafruit_BLE.h"
@@ -35,12 +26,11 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 // A small helper
 void error(const __FlashStringHelper*err) {
   Serial.println(err);
-  while (1);
+  while (1) {};
 }
 
-void setup(void)
-{
-  while (!Serial);  // required for Flora & Micro
+void setup(void) {
+  while (!Serial) {};  // required for Flora & Micro
   delay(500);
 
   Serial.begin(115200);
@@ -50,37 +40,33 @@ void setup(void)
   /* Initialise the module */
   Serial.print(F("Initialising the Bluefruit LE module: "));
 
-  if ( !ble.begin(VERBOSE_MODE) )
-  {
+  if ( !ble.begin(VERBOSE_MODE) ) {
     error(F("Couldn't find Bluefruit, make sure it's in CoMmanD mode & check wiring?"));
   }
-  Serial.println( F("OK!") );
+  Serial.println(F("OK!"));
 
-  if ( FACTORYRESET_ENABLE )
-  {
+  if ( FACTORYRESET_ENABLE ) {
     /* Perform a factory reset to make sure everything is in a known state */
     Serial.println(F("Performing a factory reset: "));
-    if ( ! ble.factoryReset() ){
+    if (!ble.factoryReset()) {
       error(F("Couldn't factory reset"));
     }
   }
-    
-  ble.echo(true); // Disable command echo from Bluefruit
-  
+
+  ble.echo(true);  // Disable command echo from Bluefruit
+
   Serial.println("Requesting Bluefruit info:");
-  ble.info(); //Print Bluefruit information
+  ble.info();  // Print Bluefruit information
   Serial.println("Updating BLE Module Settings...");
   Serial.println("- Setting BLE Power to Max...");
-  ble.println("AT+BLEPOWERLEVEL=4"); // Maximize BLE power level for longest range
+  ble.println("AT+BLEPOWERLEVEL=4");  // Maximize BLE power level for longest range
   Serial.println("- Setting BLE Public name to @Frisbee Flight BLE");
-  ble.println("AT+GAPDEVNAME=Frisbee Flight BLE"); // Update devices advertised name
+  ble.println("AT+GAPDEVNAME=Frisbee Flight BLE");  // Update devices advertised name
   Serial.println("Updating BLE Module Settings...DONE");
   Serial.println("\nEntering command mode, enter AT commands at will.");
-
 }
 
-void loop(void)
-{
+void loop(void) {
   // Display command prompt
   Serial.print(F("AT > "));
 
@@ -95,18 +81,16 @@ void loop(void)
   ble.waitForOK();
 }
 
-void getUserInput(char buffer[], uint8_t maxSize)
-{
+void getUserInput(char buffer[], uint8_t maxSize) {
   memset(buffer, 0, maxSize);
-  while( Serial.available() == 0 ) {
+  while (Serial.available() == 0) {
     delay(1);
   }
 
-  uint8_t count=0;
+  uint8_t count = 0;
 
-  do
-  {
+  do {
     count += Serial.readBytes(buffer+count, maxSize);
     delay(2);
-  } while( (count < maxSize) && !(Serial.available() == 0) );
+  } while ((count < maxSize) && !(Serial.available() == 0));
 }
