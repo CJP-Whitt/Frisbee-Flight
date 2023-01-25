@@ -1,7 +1,0 @@
-< STANDARD AT >
-AT  - Ping to check if module is in command mode. OK response means yes.
-ATI - Displays basic information about the module. 
-ATZ - Performs a system reset of the module.
-ATE - Enables or disables the echo of input characters with the AT parser. 1 = Enabled, 0 = Disabled. Ex: ATE=0
-+++ - Dynamically switches between DATA and COMMAND mode without changing the physical CMD/UART select switch. 
-      In COMMAND mode enter '+++\n' to switch to DATA mode. In DATA mode enter +++ to switch to COMMAND mode.
